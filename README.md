@@ -76,3 +76,75 @@ app.listen(PORT, "0.0.0.0", () => {
 ```
 
 10. lanjut dalam integrasi project ini dengan prisma agar kita bisa terhubung dengan database dan melakukan pengambilan/masukin data ke database dengan [prisma](https://prisma.io)
+
+11. inisiasi project npm yang ingin diintegrasikan dengan prisma, kita harus install dulu si prismanya
+
+```bash
+npm install -D prisma
+```
+
+12. inisasi prisma
+
+```bash
+prisma init
+```
+
+by default prisma akan menginisiasi project dengan database postgresql, kalau kalian ingin memakai databasenya mysql kalian bisa pakai command
+
+```bash
+npx prisma init --datasource-provider mysql
+```
+
+notes: bacaan lanjutan bisa kalian baca [disini](https://www.prisma.io/docs/concepts/database-connectors/mysql)
+
+13. lalu akan kode tambahan pada file `.env` yaitu `DATABASE_URL` dimana nanti kalian harus isi sesuai dengan `DATABASE_URL` kalian, bisa diisi pake `DATABASE_URL` dari `railway` atau kalau jalanin di local, pake yang localhost dulu aja `"mysql://root:password@localhost:3306/capstone_icanq"`. Dan ada satu file khusus yang ke generate dalam sebuah folder namanya `prisma` nama filenya `schema.prisma` dimana kalian harus mendefinisikan model kalian disitu sesuai dengan perencanaan yang kalian sudah rencanakan
+
+14. kalau mau file schema.prisma berwarna atau dikasih highlight pada syntaxnya kalian bisa download extension [ini](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
+
+15. kita bisa buat `schema` database dari yang udah kita rencanain dalam file `schema.prisma` dimana ada syntaxnya sendiri kalian bisa baca dokumentasinya di link [ini]
+
+ini ada contoh dari model dari schema yang dibikin
+
+```
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Int
+  imageUrl  String? // arti ?, not required, kalau pengen dibikin gapapa deh kalau datanya kosong
+  catalogId Int?
+  createdAt DateTime @default(now())
+  // untuk menambahkan relasi dari Product ke Catalog dimana Product boleh gapunya catalog
+  Catalog   Catalog? @relation(fields: [catalogId], references: [id])
+}
+
+model Catalog {
+  id       Int       @id @default(autoincrement())
+  name     String
+  // untuk nambahin relasi antara catalog dengan Product
+  products Product[] // ini artinya Catalog punya banyak product
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String   @db.Text // biar bisa nyimpen pesan dengan karakter yang panjang
+  createdAt DateTime @default(now())
+}
+
+```
+
+16. setelah kita define model di `schema.prisma` kita bisa melakukan synchronization database kita dengan schema yang udah dibuat tadi dengan command
+
+```bash
+npx prisma migrate dev --name <nama_apa_yang_kalian_lakukan>
+
+```
+
+<nama_apa_yang_kalian_lakukan> bisa diganti dengan aktifitas apa sih yang kamu lakaukan barusan, contoh:
+
+1. inisialisasi
+2. add_new_model_User
+3. add_relation_to_catalog_and_product
+
+`npx prisma migrate dev` wajib dilakukan setiap kali kalian sudah selesai mengubah schema.prisma atau adanya perubahan pada schema kalian, agar database selalu tersingkronisasi
