@@ -148,3 +148,7 @@ npx prisma migrate dev --name <nama_apa_yang_kalian_lakukan>
 3. add_relation_to_catalog_and_product
 
 `npx prisma migrate dev` wajib dilakukan setiap kali kalian sudah selesai mengubah schema.prisma atau adanya perubahan pada schema kalian, agar database selalu tersingkronisasi
+
+atau apabila kalian ingin lakukan singkronisasi dengan cara lain di prisma bisa dengan cara
+
+`npx prisma db push`
