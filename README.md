@@ -152,3 +152,14 @@ npx prisma migrate dev --name <nama_apa_yang_kalian_lakukan>
 atau apabila kalian ingin lakukan singkronisasi dengan cara lain di prisma bisa dengan cara
 
 `npx prisma db push`
+
+17. merujuk pada dokumentasinya, untuk bisa menggunakan prisma orm kita perlu menggunakan package `@prisma/client` untuk membuat koneksi dengan prisma dan melakukan crud operations. Perlu untuk membuat satu file configuration dimana akan dibuat pada folder `config` dan kita beri nama `prisma.js` dengan isi
+
+```js
+// prisma.js
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+module.exports = { prisma };
+```
+
+18. setelah dibuat menjadi suatu config untuk bisa dipakai di file yang lain kita bisa langsung pakai saja untuk mengambil data dari database atau hal yang lain seperti memasukkan data, update data, mengambil relasi, dan masih banyak lagi. Kalian bisa langsung lihat saja cara penggunaannya pada setiap route yang telah dibuat
