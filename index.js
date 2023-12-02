@@ -35,6 +35,49 @@ app.get("/catalogs/:id", async (req, res) => {
 	else res.status(200).json(catalog);
 });
 
+// create catalog
+app.post("/catalogs", async (req, res) => {
+	const { name } = req.body;
+	// todo - handle if name is not passed in
+	// if (!name) res.status(400).json({ message: "Name is required" });
+	const newCatalog = await prisma.catalog.create({
+		data: {
+			name: name,
+		},
+	});
+	res.status(201).json({
+		message: "Catalog created",
+		data: newCatalog,
+	});
+});
+
+// update catalog
+app.put("/catalogs/:id", async (req, res) => {
+	const { id } = req.params;
+	const { name } = req.body;
+	const updatedCatalog = await prisma.catalog.update({
+		where: { id: parseInt(id) },
+		data: { name: name },
+	});
+	res.status(200).json({
+		message: `catalog with id: ${id} is updated`,
+		data: updatedCatalog,
+	});
+});
+
+// delete catalog
+app.delete("/catalogs/:id", async (req, res) => {
+	const { id } = req.params;
+	await prisma.catalog.delete({
+		where: {
+			id: parseInt(id),
+		},
+	});
+	res.status(200).json({
+		message: `product with id: ${id} successfully deleted`,
+	});
+});
+
 app.all("*", async (req, res) => {
 	res.json({
 		message: "Routes you're looking is not found",
