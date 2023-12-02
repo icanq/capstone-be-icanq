@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,31 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// add your model here, sesuaikan dengan yang udah di rencanakan
-// nanti kalian jangan lupa baca dokumentasi tipe data pada prisma yah
-
 model Product {
   id        Int      @id @default(autoincrement())
   name      String
   price     Int
-  imageUrl  String? // arti ?, not required, kalau pengen dibikin gapapa deh kalau datanya kosong
+  imageUrl  String?
   catalogId Int?
   createdAt DateTime @default(now())
-  // untuk menambahkan relasi dari Product ke Catalog dimana Product boleh gapunya catalog
   Catalog   Catalog? @relation(fields: [catalogId], references: [id])
+
+  @@index([catalogId], map: "Product_catalogId_fkey")
 }
 
 model Catalog {
   id       Int       @id @default(autoincrement())
   name     String
-  // untuk nambahin relasi antara catalog dengan Product
-  products Product[] // ini artinya Catalog punya banyak product
+  products Product[]
 }
 
-model Message {
+model Contactus {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
-  message   String   @db.Text // biar bisa nyimpen pesan dengan karakter yang panjang
+  message   String   @db.Text
   createdAt DateTime @default(now())
 }
