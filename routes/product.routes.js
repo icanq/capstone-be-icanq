@@ -3,7 +3,11 @@ const productRoutes = express.Router();
 const { prisma } = require("../config/prisma");
 
 productRoutes.get("/", async (req, res) => {
+	const { soldout } = req.query;
 	const products = await prisma.product.findMany({
+		where: {
+			isSoldOut: soldout === "true" ? true : false,
+		},
 		include: {
 			Catalog: true,
 		},

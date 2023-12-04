@@ -15,14 +15,17 @@ model Product {
   catalogId Int?
   createdAt DateTime @default(now())
   Catalog   Catalog? @relation(fields: [catalogId], references: [id])
+  isSoldOut Boolean  @default(false)
 
   @@index([catalogId], map: "Product_catalogId_fkey")
 }
 
 model Catalog {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  iconUrl   String? // "?" question mark dipakai ketika icon tidak wajib diisi 
+  products  Product[]
+  createdAt DateTime  @default(now())
 }
 
 model Contactus {
