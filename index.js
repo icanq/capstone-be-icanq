@@ -15,6 +15,10 @@ app.get("/", async (req, res) => {
 	res.send("here is the response");
 });
 
+app.get("/hello", async (req, res) => {
+	res.send("hello");
+});
+
 // catalog routes
 app.use("/catalogs", catalogRoutes);
 
