@@ -29,9 +29,10 @@ model Catalog {
 }
 
 model Contactus {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  message   String   @db.Text
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  phoneNumber String?
+  message     String   @db.Text
+  createdAt   DateTime @default(now())
 }
